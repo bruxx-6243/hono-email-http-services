@@ -11,4 +11,4 @@ export default class EmailController extends BaseController {
   }
 }
 
-export const { login } = new EmailController();
+export const { login, register } = new EmailController();
