@@ -1,3 +1,4 @@
+import { HTTPException } from "@/lib/api/handlers/errors";
 import routers from "@/lib/api/routers";
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
@@ -17,6 +18,9 @@ app.get("/", (c) => {
 });
 
 app.onError((err, c) => {
+  if (err instanceof HTTPException) {
+    return c.json({ error: err.message, cause: err.cause });
+  }
   console.error(
     "Error:",
     err instanceof Error ? err.message : JSON.stringify(err, null, 2)

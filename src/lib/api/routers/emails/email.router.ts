@@ -1,4 +1,5 @@
-import { AppContext } from "@/types";
+import { loginEmailSchema } from "@/types";
+import { zValidator } from "@/types/validator-wrapper";
 import { Hono } from "hono";
 
 const emailRouter = new Hono();
@@ -9,14 +10,10 @@ emailRouter.get("/", (c) => {
   });
 });
 
-const handleLogin = (c: AppContext) => {
-  return c.json({
-    message: "Hello Hono! login",
-  });
-};
+emailRouter.post("/login", zValidator("json", loginEmailSchema), (c) => {
+  const data = c.req.valid("json");
 
-emailRouter.get("/login", (ctx) => {
-  return handleLogin(ctx);
+  return c.json({ data });
 });
 
 export { emailRouter };
