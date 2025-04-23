@@ -1,19 +1,13 @@
 import BaseController from "@/lib/api/controllers/base.controller";
-import type { AppContext } from "@/types";
+import type { LoginEmail, RegisterEmail } from "@/types";
 
 export default class EmailController extends BaseController {
-  async login(ctx: AppContext) {
-    // const data = ctx.req.valid("");
-
-    return ctx.json({
-      message: "Login controller",
-    });
+  async login(data: LoginEmail) {
+    return data;
   }
 
-  async register(ctx: AppContext) {
-    return ctx.json({
-      message: "Register controller",
-    });
+  async register(data: RegisterEmail) {
+    return data;
   }
 }
 
