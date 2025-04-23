@@ -1,8 +1,8 @@
-import { emailRoouter } from "@/lib/api/routers/emails/email.router";
+import { emailRouter } from "@/lib/api/routers/emails/email.router";
 
 export default [
   {
-    path: "/email",
-    router: emailRoouter,
+    path: "/send",
+    router: emailRouter,
   },
 ];

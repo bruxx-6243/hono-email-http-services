@@ -1,11 +1,22 @@
+import { AppContext } from "@/types";
 import { Hono } from "hono";
 
-const emailRoouter = new Hono();
+const emailRouter = new Hono();
 
-emailRoouter.get("/", (c) => {
+emailRouter.get("/", (c) => {
   return c.json({
-    message: "Hello Hono!",
+    message: "Email router is active!",
   });
 });
 
-export { emailRoouter };
+const handleLogin = (c: AppContext) => {
+  return c.json({
+    message: "Hello Hono! login",
+  });
+};
+
+emailRouter.get("/login", (ctx) => {
+  return handleLogin(ctx);
+});
+
+export { emailRouter };
