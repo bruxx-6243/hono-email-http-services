@@ -1,3 +1,4 @@
+import routers from "@/lib/api/routers";
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
 
@@ -7,16 +8,20 @@ export const config = {
 
 const app = new Hono().basePath("/api");
 
-app.use("*", async (c, next) => {
-  await next();
-  const response = c.res;
-  response.headers.set("x-powered-by", "Hono");
-
-  return response;
+routers.forEach(({ path, router }) => {
+  app.route(path, router);
 });
 
 app.get("/", (c) => {
   return c.text("Hello Hono!");
+});
+
+app.onError((err, c) => {
+  console.error(
+    "Error:",
+    err instanceof Error ? err.message : JSON.stringify(err, null, 2)
+  );
+  return c.json({ error: "Internal Server Error" }, 500);
 });
 
 export default handle(app);
