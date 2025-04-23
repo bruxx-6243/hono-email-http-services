@@ -1,14 +1,22 @@
-import { Hono } from 'hono'
-import { handle } from 'hono/vercel'
+import { Hono } from "hono";
+import { handle } from "hono/vercel";
 
 export const config = {
-  runtime: 'edge'
-}
+  runtime: "edge",
+};
 
-const app = new Hono().basePath('/api')
+const app = new Hono().basePath("/api");
 
-app.get('/', (c) => {
-  return c.json({ message: 'Hello Hono!' })
-})
+app.use("*", async (c, next) => {
+  await next();
+  const response = c.res;
+  response.headers.set("x-powered-by", "Hono");
 
-export default handle(app)
+  return response;
+});
+
+app.get("/", (c) => {
+  return c.text("Hello Hono!");
+});
+
+export default handle(app);
